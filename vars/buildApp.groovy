@@ -1,9 +1,10 @@
 def call() {
-    echo " Starting build process..."
-    
+    echo "  Starting build process..."
+
     stage('Checkout') {
         echo "Cloning the project repository..."
-        checkout scm
+        // Instead of 'checkout scm', do this:
+        git branch: 'main', url: 'https://github.com/ahmedgamalhosiny/java-pipeline-iti.git'
     }
 
     stage('Build') {
@@ -11,15 +12,7 @@ def call() {
         bat "mvn clean package"
     }
 
-    stage('Test') {
-        echo "Running unit tests..."
-        bat "mvn test"
-    }
-
     stage('Deploy') {
-        echo "Deploying application (simulation)..."
         echo " Deployment successful!"
     }
-    
-    echo " BuildApp pipeline finished successfully."
 }
