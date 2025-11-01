@@ -3,16 +3,19 @@ def call() {
 
     stage('Checkout') {
         echo "Cloning the project repository..."
-        // Clone your Git repo
         git branch: 'main', url: 'https://github.com/ahmedgamalhosiny/java-pipeline-iti.git'
     }
 
     stage('Build') {
         echo "Building Java project using Maven..."
-        // Use the Jenkins Maven tool
-        withMaven(maven: 'Maven_3_9_9') {
-            bat "mvn clean package"
-        }
+        def mvnHome = tool name: 'Maven_3_9_11', type: 'maven'
+        bat "\"${mvnHome}\\bin\\mvn\" clean package"
+    }
+
+    stage('Test') {
+        echo "Running tests..."
+        def mvnHome = tool name: 'Maven_3_9_11', type: 'maven'
+        bat "\"${mvnHome}\\bin\\mvn\" test"
     }
 
     stage('Deploy') {
